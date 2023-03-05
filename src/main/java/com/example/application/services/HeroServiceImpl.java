@@ -20,11 +20,11 @@ public class HeroServiceImpl implements HeroService {
     }
 
     @Override
-    public Optional<Hero> getHeroById(Integer id) throws HeroNotExistException {
+    public Hero getHeroById(Integer id) throws HeroNotExistException {
         if(!this.heroRepository.isExistHero(id))
             throw new HeroNotExistException("Heroe no encontrado con el siguiente ID: " + id);
         
-        return this.heroRepository.getHeroById(id);
+        return this.heroRepository.getHeroById(id).get();
     }
 
     @Override
