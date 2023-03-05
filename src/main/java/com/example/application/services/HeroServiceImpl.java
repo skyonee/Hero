@@ -4,37 +4,45 @@ import java.util.Optional;
 
 import com.example.domain.exceptions.HeroNotExistException;
 import com.example.domain.models.Hero;
+import com.example.domain.ports.HeroRepository;
 
 public class HeroServiceImpl implements HeroService {
 
+    private final HeroRepository heroRepository;
+
+    public HeroServiceImpl(HeroRepository heroRepository) {
+        this.heroRepository = heroRepository;
+    }
+    
     @Override
     public Iterable<Hero> getHeores() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHeores'");
+        return this.heroRepository.getHeores();
     }
 
     @Override
     public Optional<Hero> getHeroById(Integer id) throws HeroNotExistException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHeroById'");
+        if(!this.heroRepository.isExistHero(id))
+            throw new HeroNotExistException("Heroe no encontrado con el siguiente ID: " + id);
+        
+        return this.heroRepository.getHeroById(id);
     }
 
     @Override
     public Iterable<Hero> getHeroByNameContainsValue(String value) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHeroByNameContainsValue'");
+        return this.heroRepository.getHeroByNameContainsValue(value);
     }
 
     @Override
     public Hero saveHero(Hero hero) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'saveHero'");
+        return this.heroRepository.saveHero(hero);
     }
 
     @Override
     public void deleteHeroById(Integer id) throws HeroNotExistException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteHeroById'");
+        if(!this.heroRepository.isExistHero(id))
+            throw new HeroNotExistException("Heroe no encontrado con el siguiente ID: " + id);
+        
+        this.heroRepository.deleteHeroById(id);
     }
     
 }
