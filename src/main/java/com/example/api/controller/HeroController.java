@@ -46,7 +46,11 @@ public class HeroController {
     public ResponseEntity<HeroDTO> saveHero(@RequestBody HeroDTO newHero, @PathVariable Integer id) {
         var hero = this.heroMapperDTO.toHero(newHero);
         hero.setId(id);
-        return new ResponseEntity<>(this.heroMapperDTO.toHeroDTO(heroService.saveHero(hero)), HttpStatus.OK);
+        try {
+            return new ResponseEntity<>(this.heroMapperDTO.toHeroDTO(heroService.updateHero(hero)), HttpStatus.OK);
+        } catch (HeroNotExistException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @DeleteMapping("/{id}")
@@ -59,4 +63,3 @@ public class HeroController {
         }
     }
 }
-

@@ -47,4 +47,12 @@ public class HeroServiceImpl implements HeroService {
         this.heroRepository.deleteHeroById(id);
     }
 
+    @Override
+    public Hero updateHero(Hero hero) throws HeroNotExistException {
+        if (!this.heroRepository.isExistHero(hero.getId()))
+            throw new HeroNotExistException("Heroe no encontrado con el siguiente ID: " + hero.getId());
+
+        return this.saveHero(hero);
+    }
+
 }
