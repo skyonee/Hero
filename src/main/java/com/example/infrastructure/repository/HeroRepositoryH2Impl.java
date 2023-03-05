@@ -3,12 +3,14 @@ package com.example.infrastructure.repository;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.example.domain.models.Hero;
 import com.example.domain.ports.HeroRepository;
 import com.example.infrastructure.entity.HeroEntity;
 import com.example.infrastructure.mapper.HeroMapper;
 
+@Repository
 public class HeroRepositoryH2Impl implements HeroRepository {
 
     @Autowired
