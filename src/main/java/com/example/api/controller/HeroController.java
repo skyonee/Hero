@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import com.example.api.annotations.TimedCustom;
 import com.example.api.dto.HeroDTO;
 import com.example.api.mapper.HeroMapperDTO;
 import com.example.application.services.HeroService;
@@ -23,11 +24,13 @@ public class HeroController {
     }
 
     @GetMapping
+    @TimedCustom
     public ResponseEntity<Iterable<HeroDTO>> getHeroes() {
         return new ResponseEntity<>(this.heroMapperDTO.toHeroesDTO(this.heroService.getHeores()), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
+    @TimedCustom
     public ResponseEntity<HeroDTO> getHero(@PathVariable Integer id) {
         try {
             return new ResponseEntity<>(this.heroMapperDTO.toHeroDTO(this.heroService.getHeroById(id)), HttpStatus.OK);
@@ -37,12 +40,14 @@ public class HeroController {
     }
 
     @GetMapping("/contains/{value}")
+    @TimedCustom
     public ResponseEntity<Iterable<HeroDTO>> getHero(@PathVariable String value) {
         return new ResponseEntity<>(this.heroMapperDTO.toHeroesDTO(this.heroService.getHeroByNameContainsValue(value)),
                 HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
+    @TimedCustom
     public ResponseEntity<HeroDTO> saveHero(@RequestBody HeroDTO newHero, @PathVariable Integer id) {
         var hero = this.heroMapperDTO.toHero(newHero);
         hero.setId(id);
@@ -54,6 +59,7 @@ public class HeroController {
     }
 
     @DeleteMapping("/{id}")
+    @TimedCustom
     public ResponseEntity<Void> deleteHero(@PathVariable Integer id) {
         try {
             this.heroService.deleteHeroById(id);
