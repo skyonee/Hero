@@ -1,6 +1,6 @@
 package com.example.application.services;
 
-import java.util.Optional;
+import org.springframework.cache.annotation.Cacheable;
 
 import com.example.domain.exceptions.HeroNotExistException;
 import com.example.domain.models.Hero;
@@ -13,21 +13,23 @@ public class HeroServiceImpl implements HeroService {
     public HeroServiceImpl(HeroRepository heroRepository) {
         this.heroRepository = heroRepository;
     }
-    
+
     @Override
+    @Cacheable("heroes")
     public Iterable<Hero> getHeores() {
         return this.heroRepository.getHeores();
     }
 
     @Override
     public Hero getHeroById(Integer id) throws HeroNotExistException {
-        if(!this.heroRepository.isExistHero(id))
+        if (!this.heroRepository.isExistHero(id))
             throw new HeroNotExistException("Heroe no encontrado con el siguiente ID: " + id);
-        
+
         return this.heroRepository.getHeroById(id).get();
     }
 
     @Override
+    @Cacheable("heroes")
     public Iterable<Hero> getHeroByNameContainsValue(String value) {
         return this.heroRepository.getHeroByNameContainsValue(value);
     }
@@ -39,10 +41,10 @@ public class HeroServiceImpl implements HeroService {
 
     @Override
     public void deleteHeroById(Integer id) throws HeroNotExistException {
-        if(!this.heroRepository.isExistHero(id))
+        if (!this.heroRepository.isExistHero(id))
             throw new HeroNotExistException("Heroe no encontrado con el siguiente ID: " + id);
-        
+
         this.heroRepository.deleteHeroById(id);
     }
-    
+
 }
